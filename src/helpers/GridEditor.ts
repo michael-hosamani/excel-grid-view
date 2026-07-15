@@ -48,8 +48,8 @@ export function hideFormulaMenu(grid: Grid): void {
 export function showEditInput(grid: Grid, row: number, col: number): void {
   const x = 60 + getColumnOffset(grid.columnDefinitions, col) - grid.scrollLeft;
   const y = 32 + getRowOffset(grid.rowDefinitions, row) - grid.scrollTop;
-  const width = grid.columnDefinitions[col].width;
-  const height = grid.rowDefinitions[row].height;
+  const width = grid.columnDefinitions[col]!.width;
+  const height = grid.rowDefinitions[row]!.height;
 
   grid.editInput.style.left = `${x}px`;
   grid.editInput.style.top = `${y}px`;
