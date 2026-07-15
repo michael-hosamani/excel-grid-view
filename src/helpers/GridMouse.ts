@@ -3,6 +3,7 @@ import { ResizeColumnCommand } from "../commands/ResizeColumnCommand.js";
 import { ResizeRowCommand } from "../commands/ResizeRowCommand.js";
 import { getColumnIndexAtPosition, getRowIndexAtPosition, getColumnOffset, getRowOffset, updateSpacerSize } from "./GridLayout.js";
 import { hideFormulaMenu, applyEdit, hideEditInput } from "./GridEditor.js";
+import { MouseEventControllers } from "./MouseEventControllers.js";
 
 // this function handles all the actions to be done when the mouse-down event is triggered
 export function handleMouseDown(grid: Grid, event: MouseEvent): void {
@@ -79,25 +80,11 @@ export function handleMouseMove(grid: Grid, event: MouseEvent): void {
   const contentX = event.offsetX + window.pageXOffset;
   const contentY = event.offsetY + window.pageYOffset;
 
-  // handles column resizing
-  if (grid.isDraggingColumn && grid.activeResizeIndex >= 0) {
-    const delta = event.offsetX - grid.startDragPosition;
-    const newWidth = Math.max(40, grid.startSize + delta);
-    grid.columnDefinitions[grid.activeResizeIndex]!.width = newWidth;
-    updateSpacerSize(grid);
-    grid.render();
-    return;
-  }
+  const mouseController = new MouseEventControllers()
 
-  // handles row resizing
-  if (grid.isDraggingRow && grid.activeResizeIndex >= 0) {
-    const delta = event.offsetY - grid.startDragPosition;
-    const newHeight = Math.max(24, grid.startSize + delta);
-    grid.rowDefinitions[grid.activeResizeIndex]!.height = newHeight;
-    updateSpacerSize(grid);
-    grid.render();
-    return;
-  }
+  mouseController.handleColResizing(grid, event)
+
+  mouseController.handleRowResizing(grid, event)
 
   // handles grid selection
   if (grid.isSelectingRange) {
