@@ -2,7 +2,7 @@
 
 ## Project Name and Objective
 
-**Excel Grid View** is a browser-based spreadsheet-style grid application built with TypeScript and HTML5 Canvas. The objective is to provide a fast, virtualized grid viewer and editor with row/column headers, selection, in-cell editing, formula support, clipboard operations, undo/redo, and efficient rendering for large data sets.
+**Excel Grid View** is a browser-based spreadsheet-style grid application built with TypeScript and HTML5 Canvas. The objective is to provide a fast, virtualized grid viewer and editor with row/column headers, selection, in-cell editing, formula support, undo/redo, and efficient rendering for large data sets.
 
 ## How to Install and Run
 
@@ -35,19 +35,34 @@
 ## Folder and Class Structure
 
 - `src/`
-  - `main.ts` — application entry point and grid initialization
-  - `Grid.ts` — main grid controller, state, rendering lifecycle, and event wiring
-  - `helpers/`
-      - `GridRenderer.ts` — canvas render logic for cells, headers, lines, selection, and summary updates
-      - `GridLayout.ts` — layout math for offsets, visible range calculation, and spacer sizing
-      - `GridEditor.ts` — in-cell editing, formula menu, and edit input positioning
-      - `GridClipboard.ts` — copy/paste selection handling
-      - `GridEvents.ts` — mouse event delegation and interaction handling
-      - `GridKeyboard.ts` — keyboard event processing
-      - `GridDoubleClick.ts` — double-click editor activation
-  - `commands/` — undo/redo command classes
-  - `models/` — core model classes like `Cell`, `DataStore`, `Dimension`, `Range`, `Selection`
-  - `data/sampleData.ts` — sample record generation
+   - `main.ts`
+   - `Grid.ts` 
+   - `helpers/`
+      - `GridRenderer.ts` 
+      - `GridLayout.ts` 
+      - `GridEditor.ts`
+      - `GridClipboard.ts` 
+      - `GridEvents.ts` 
+      - `GridKeyboard.ts` 
+      - `GridDoubleClick.ts` 
+      - `GridMouse.ts`     
+      - `MouseEventControllers.ts`
+      - `GridFormulas.ts`
+   - `commands/` 
+      - `BatchEditCommand.ts`  
+      - `Command.ts`  
+      - `CommandManager.ts`  
+      - `EditCellCommand.ts`  
+      - `ResizeColumnCommand.ts`  
+      - `ResizeRowCommand.ts`
+   - `models/` 
+      - `Cell.ts` 
+      - `DataStore.ts` 
+      - `Dimension.ts` 
+      - `Range.ts`
+      - `Selection.ts`
+   - `data/`
+      -  `sampleData.ts`  
 
 
 ### Component Responsibilities
