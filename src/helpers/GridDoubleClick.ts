@@ -20,7 +20,7 @@ export function handleDoubleClick(grid: Grid, event: MouseEvent): void {
         autoResizeColumn(grid, colIndex);
       } else {
         grid.selection.selectColumn(colIndex);
-        hideFormulaMenu(grid);
+        hideFormulaMenu();
         grid.render();
       }
     }
@@ -39,7 +39,7 @@ export function handleDoubleClick(grid: Grid, event: MouseEvent): void {
         autoResizeRow(grid, rowIndex);
       } else {
         grid.selection.selectRow(rowIndex);
-        hideFormulaMenu(grid);
+        hideFormulaMenu();
         grid.render();
       }
     }
@@ -49,7 +49,7 @@ export function handleDoubleClick(grid: Grid, event: MouseEvent): void {
   const row = getRowIndexAtPosition(grid.rowDefinitions, contentY - 32);
   const col = getColumnIndexAtPosition(grid.columnDefinitions, contentX - 60);
   if (row >= 0 && col >= 0) {
-    hideFormulaMenu(grid);
+    hideFormulaMenu();
     showEditInput(grid, row, col);
   }
 }

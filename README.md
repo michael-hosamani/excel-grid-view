@@ -38,13 +38,13 @@
   - `main.ts` — application entry point and grid initialization
   - `Grid.ts` — main grid controller, state, rendering lifecycle, and event wiring
   - `helpers/`
-   - `GridRenderer.ts` — canvas render logic for cells, headers, lines, selection, and summary updates
-   - `GridLayout.ts` — layout math for offsets, visible range calculation, and spacer sizing
-   - `GridEditor.ts` — in-cell editing, formula menu, and edit input positioning
-   - `GridClipboard.ts` — copy/paste selection handling
-   - `GridEvents.ts` — mouse event delegation and interaction handling
-   - `GridKeyboard.ts` — keyboard event processing
-   - `GridDoubleClick.ts` — double-click editor activation
+      - `GridRenderer.ts` — canvas render logic for cells, headers, lines, selection, and summary updates
+      - `GridLayout.ts` — layout math for offsets, visible range calculation, and spacer sizing
+      - `GridEditor.ts` — in-cell editing, formula menu, and edit input positioning
+      - `GridClipboard.ts` — copy/paste selection handling
+      - `GridEvents.ts` — mouse event delegation and interaction handling
+      - `GridKeyboard.ts` — keyboard event processing
+      - `GridDoubleClick.ts` — double-click editor activation
   - `commands/` — undo/redo command classes
   - `models/` — core model classes like `Cell`, `DataStore`, `Dimension`, `Range`, `Selection`
   - `data/sampleData.ts` — sample record generation

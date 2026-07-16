@@ -164,7 +164,7 @@ export class Grid {
   }
 
   public hideFormulaMenu(): void {
-    hideFormulaMenu(this);
+    hideFormulaMenu();
   }
 
   private createDimensions(): void {

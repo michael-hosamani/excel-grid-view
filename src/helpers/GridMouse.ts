@@ -69,7 +69,7 @@ export function handleMouseDown(grid: Grid, event: MouseEvent): void {
     grid.selectionCurrentRow = rowIndex;
     grid.selectionCurrentCol = colIndex;
     grid.selection.selectRange(rowIndex, colIndex, rowIndex, colIndex);
-    hideFormulaMenu(grid);
+    hideFormulaMenu();
     grid.render();
   }
 }
