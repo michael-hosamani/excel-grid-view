@@ -46,7 +46,9 @@
       - `GridKeyboard.ts` 
       - `GridDoubleClick.ts` 
       - `GridMouse.ts`     
-      - `MouseEventControllers.ts`
+      - `MouseDownEventControllers.ts`
+      - `MouseMoveEventControllers.ts`
+      - `MouseUpEventControllers.ts`
       - `GridFormulas.ts`
    - `commands/` 
       - `BatchEditCommand.ts`  
