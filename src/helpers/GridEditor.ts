@@ -102,7 +102,7 @@ export function applyEdit(grid: Grid, value: string): void {
   const row = grid.selection.anchorRow;
   const col = grid.selection.anchorCol;
 
-  if (value.trim().startsWith("=")) {
+  if (value.trim().startsWith("=") && value.trim().length > 1) {
     const result = evaluateFormula(value.trim(), grid.data);
     if (result.error) {
       grid.lastFormulaError = result.error;

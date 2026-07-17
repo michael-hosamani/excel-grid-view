@@ -28,7 +28,7 @@ export function handleMouseDown(grid: Grid, event: PointerEvent): void {
 
   mouseController.handlePointerOnRowHeaders(grid, contentX, contentY, event)
 
-  mouseController.selectCell(grid, contentX, contentY)
+  mouseController.selectItem(grid, contentX, contentY, event)
 }
 
 
