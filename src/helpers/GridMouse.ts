@@ -3,6 +3,7 @@ import { applyEdit, hideEditInput } from "./GridEditor.js";
 import { MouseMoveEventControllers } from "./MouseMoveEventControllers.js";
 import { MouseDownEventControllers } from "./MouseDownEventControllers.js";
 import { MouseUpEventControllers } from "./MouseUpEventControllers.js";
+import { CELL_HEIGHT, CELL_WIDTH } from "../lib/constants.js";
 
 // this function handles all the actions to be done when the mouse-down event is triggered
 export function handleMouseDown(grid: Grid, event: PointerEvent): void {
@@ -18,7 +19,7 @@ export function handleMouseDown(grid: Grid, event: PointerEvent): void {
   const contentX = event.offsetX + window.pageXOffset;
   const contentY = event.offsetY + window.pageYOffset;
 
-  if (contentX <= 60 && contentY <= 32) {
+  if (contentX <= CELL_WIDTH && contentY <= CELL_HEIGHT) {
     return;
   }
 

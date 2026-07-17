@@ -1,4 +1,5 @@
 import type { Grid } from "../Grid.js";
+import { CELL_WIDTH } from "../lib/constants.js";
 import { getColumnOffset, getRowOffset, getVisibleColumnRange, getVisibleRowRange } from "./GridLayout.js";
 
 // this function is used to clear the canvas
@@ -27,7 +28,7 @@ function renderHeaders(grid: Grid): void {
   context.lineTo(width + 0.5, 32.5);
 
   const visibleColumnsForLines = getVisibleColumnRange(columnDefinitions, scrollLeft, width);
-  let headerX = 60 + getColumnOffset(columnDefinitions, visibleColumnsForLines.start) - scrollLeft;
+  let headerX = CELL_WIDTH + getColumnOffset(columnDefinitions, visibleColumnsForLines.start) - scrollLeft;
 
   // render column headers
   for (let colIndex = visibleColumnsForLines.start; colIndex <= visibleColumnsForLines.end; colIndex += 1) {

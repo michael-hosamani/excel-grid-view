@@ -1,5 +1,6 @@
 import type { ColumnDefinition, RowDefinition } from "../models/Dimension.js";
 import type { Grid } from "../Grid.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_HEIGHT, MIN_CELL_WIDTH } from "../lib/constants.js";
 
 // this function gets the columnOffset - 
 // which means it gets the vertical distance from the top of the view port to the selected column
@@ -52,12 +53,12 @@ export function getVisibleColumnRange(
   scrollLeft: number,
   canvasWidth: number
 ): { start: number; end: number } {
-  const offsetX = Math.max(0, scrollLeft - 60);
+  const offsetX = Math.max(0, scrollLeft - CELL_WIDTH);
   let start = getColumnIndexAtPosition(columnDefinitions, offsetX);
   if (start < 0) {
     start = 0;
   }
-  const viewWidth = canvasWidth - 60;
+  const viewWidth = canvasWidth - CELL_WIDTH;
   let visibleWidth = getColumnOffset(columnDefinitions, start) + columnDefinitions[start]!.width - offsetX;
   let end = start;
   while (end + 1 < columnDefinitions.length && visibleWidth < viewWidth) {
@@ -73,12 +74,12 @@ export function getVisibleRowRange(
   scrollTop: number,
   canvasHeight: number
 ): { start: number; end: number } {
-  const offsetY = Math.max(0, scrollTop - 32);
+  const offsetY = Math.max(0, scrollTop - CELL_HEIGHT);
   let start = getRowIndexAtPosition(rowDefinitions, offsetY);
   if (start < 0) {
     start = 0;
   }
-  const viewHeight = canvasHeight - 32;
+  const viewHeight = canvasHeight - CELL_HEIGHT;
   let visibleHeight = getRowOffset(rowDefinitions, start) + rowDefinitions[start]!.height - offsetY;
   let end = start;
   while (end + 1 < rowDefinitions.length && visibleHeight < viewHeight) {
@@ -90,13 +91,13 @@ export function getVisibleRowRange(
 
 // this function gets the full width of the grid
 export function getFullGridWidth(columnDefinitions: ColumnDefinition[]): number {
-  return 60 + columnDefinitions.reduce((sum, column) => sum + column.width, 0);
+  return CELL_WIDTH + columnDefinitions.reduce((sum, column) => sum + column.width, 0);
 }
 
 
 // this function gets the full height of the grid
 export function getFullGridHeight(rowDefinitions: RowDefinition[]): number {
-  return 32 + rowDefinitions.reduce((sum, row) => sum + row.height, 0);
+  return CELL_HEIGHT + rowDefinitions.reduce((sum, row) => sum + row.height, 0);
 }
 
 // this functions update the size of the spacer
@@ -120,7 +121,7 @@ export function ensureCellVisible(grid: Grid, row: number, col: number): void {
 export function autoResizeColumnIfNeeded(grid: Grid, colIndex: number, value: string): void {
   const textWidth = grid.context.measureText(value).width;
   const requiredWidth = Math.ceil(textWidth + 16);
-  grid.columnDefinitions[colIndex]!.width = Math.max(grid.columnDefinitions[colIndex]!.width, requiredWidth, 40);
+  grid.columnDefinitions[colIndex]!.width = Math.max(grid.columnDefinitions[colIndex]!.width, requiredWidth, MIN_CELL_WIDTH);
   updateSpacerSize(grid);
 }
 
@@ -138,7 +139,7 @@ export function autoResizeColumn(grid: Grid, colIndex: number): void {
       maxWidth = width;
     }
   });
-  grid.columnDefinitions[colIndex]!.width = Math.max(40, Math.ceil(maxWidth + 16));
+  grid.columnDefinitions[colIndex]!.width = Math.max(MIN_CELL_WIDTH, Math.ceil(maxWidth + 16));
   updateSpacerSize(grid);
   grid.render();
 }
@@ -146,7 +147,7 @@ export function autoResizeColumn(grid: Grid, colIndex: number): void {
 // this function is used to resize row to take up the height of the max height of the content inside of the cells in that column
 // if double clicked on its respective row header 
 export function autoResizeRow(grid: Grid, rowIndex: number): void {
-  let maxHeight = 24;
+  let maxHeight = MIN_CELL_HEIGHT;
   grid.data.getEntries().forEach((entry) => {
     if (entry.row !== rowIndex) {
       return;
@@ -157,7 +158,7 @@ export function autoResizeRow(grid: Grid, rowIndex: number): void {
       maxHeight = contentHeight;
     }
   });
-  grid.rowDefinitions[rowIndex]!.height = Math.max(24, maxHeight);
+  grid.rowDefinitions[rowIndex]!.height = Math.max(MIN_CELL_HEIGHT, maxHeight);
   updateSpacerSize(grid);
   grid.render();
 }

@@ -8,9 +8,9 @@ export class MouseDownEventControllers{
     // this function handles the condition when mouse pointer is on the column headers
     handlePointerOnColHeaders(grid: Grid, contentX: number, contentY: number, event: PointerEvent){
         if (contentY <= CELL_HEIGHT) {
-            const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - 60);
+            const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - CELL_WIDTH);
             if (colIndex >= 0) {
-              const columnStartCanvasX = 60 + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
+              const columnStartCanvasX = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
               const localX = event.offsetX - columnStartCanvasX;
               const width = grid.columnDefinitions[colIndex]!.width;
               const nearEdge = Math.abs(localX - width) <= 6;
@@ -28,9 +28,9 @@ export class MouseDownEventControllers{
     // this function handles the condition when the mouse pointer is on the row headers
     handlePointerOnRowHeaders(grid: Grid, contentX: number, contentY: number, event: PointerEvent){
         if (contentX <= CELL_WIDTH) {
-            const rowIndex = getRowIndexAtPosition(grid.rowDefinitions, contentY - 32);
+            const rowIndex = getRowIndexAtPosition(grid.rowDefinitions, contentY - CELL_HEIGHT);
             if (rowIndex >= 0) {
-              const rowStartCanvasY = 32 + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
+              const rowStartCanvasY = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
               const localY = event.offsetY - rowStartCanvasY;
               const height = grid.rowDefinitions[rowIndex]!.height;
               const nearEdge = Math.abs(localY - height) <= 6;
@@ -48,9 +48,9 @@ export class MouseDownEventControllers{
     // this function handles cell selection
     selectItem(grid: Grid, contentX: number, contentY: number, event: PointerEvent){
       if (contentY <= CELL_HEIGHT && contentX > CELL_WIDTH) { // select column - when mouse pointer is over column headers
-        const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - 60);
+        const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - CELL_WIDTH);
         if (colIndex >= 0) {
-          const columnStartCanvasX = 60 + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
+          const columnStartCanvasX = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
           const localX = event.offsetX - columnStartCanvasX;
           const width = grid.columnDefinitions[colIndex]!.width;
           const nearEdge = Math.abs(localX - width) <= 6;
@@ -65,9 +65,9 @@ export class MouseDownEventControllers{
         return;
       }
       else if (contentX <= CELL_WIDTH && contentY > CELL_HEIGHT) { // select row - when mouse pointer is over row headers
-        const rowIndex = getRowIndexAtPosition(grid.rowDefinitions, contentY - 32);
+        const rowIndex = getRowIndexAtPosition(grid.rowDefinitions, contentY - CELL_HEIGHT);
         if (rowIndex >= 0) {
-          const rowStartCanvasY = 32 + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
+          const rowStartCanvasY = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
           const localY = event.offsetY - rowStartCanvasY;
           const height = grid.rowDefinitions[rowIndex]!.height;
           const nearEdge = Math.abs(localY - height) <= 6;

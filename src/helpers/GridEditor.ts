@@ -1,5 +1,6 @@
 import type { Grid } from "../Grid.js";
 import { EditCellCommand } from "../commands/EditCellCommand.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_HEIGHT } from "../lib/constants.js";
 import { evaluateFormula } from "./GridFormulas.js";
 import { getColumnOffset, getRowOffset, autoResizeColumnIfNeeded } from "./GridLayout.js";
 
@@ -32,11 +33,11 @@ export function showFormulaMenuForSelection(grid: Grid): void {
   if (!formulaMenu) return;
   const row = grid.selection.anchorRow;
   const col = grid.selection.anchorCol;
-  const x = 60 + getColumnOffset(grid.columnDefinitions, col) - grid.scrollLeft;
-  const y = 32 + getRowOffset(grid.rowDefinitions, row) - grid.scrollTop;
+  const x = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, col) - grid.scrollLeft;
+  const y = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, row) - grid.scrollTop;
   const canvasRect = grid.canvas.getBoundingClientRect();
   formulaMenu.style.left = `${Math.max(8, canvasRect.left + x)}px`;
-  formulaMenu.style.top = `${canvasRect.top + y + (grid.rowDefinitions[row]?.height || 24) + 6}px`;
+  formulaMenu.style.top = `${canvasRect.top + y + (grid.rowDefinitions[row]?.height || MIN_CELL_HEIGHT) + 6}px`;
   formulaMenu.style.display = "block";
   formulaMenu.setAttribute("aria-hidden", "false");
 }
@@ -51,8 +52,8 @@ export function hideFormulaMenu(): void {
 
 // this function is used to render an input box inside a selected cell
 export function showEditInput(grid: Grid, row: number, col: number): void {
-  const x = 60 + getColumnOffset(grid.columnDefinitions, col) - grid.scrollLeft;
-  const y = 32 + getRowOffset(grid.rowDefinitions, row) - grid.scrollTop;
+  const x = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, col) - grid.scrollLeft;
+  const y = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, row) - grid.scrollTop;
   const width = grid.columnDefinitions[col]!.width;
   const height = grid.rowDefinitions[row]!.height;
 
