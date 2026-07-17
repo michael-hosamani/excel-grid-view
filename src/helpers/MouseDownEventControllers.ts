@@ -83,7 +83,7 @@ export class MouseDownEventControllers{
       }
       else{
         const rowIndex = getRowIndexAtPosition(grid.rowDefinitions, contentY - CELL_HEIGHT);
-        const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - CELL_HEIGHT);
+        const colIndex = getColumnIndexAtPosition(grid.columnDefinitions, contentX - CELL_WIDTH);
         // mark a cell as selected on mouse down event when rowIndex and colIndex are both >= 0
         if (rowIndex >= 0 && colIndex >= 0) {
           grid.isSelectingRange = true;
