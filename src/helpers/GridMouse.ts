@@ -40,9 +40,9 @@ export function handleMouseMove(grid: Grid, event: PointerEvent): void {
 
   const mouseController = new MouseMoveEventControllers()
 
-  mouseController.updateCursorOnColHeaders(grid, contentX, contentY)
+  mouseController.updateCursorOnColHeaders(grid, contentX, contentY, event)
 
-  mouseController.updateCursorOnRowHeaders(grid, contentX, contentY)
+  mouseController.updateCursorOnRowHeaders(grid, contentX, contentY, event)
 
   mouseController.handleColResizing(grid, event)
 
