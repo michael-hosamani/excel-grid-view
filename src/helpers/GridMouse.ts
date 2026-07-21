@@ -1,65 +1,65 @@
 import type { Grid } from "../Grid.js";
 import { applyEdit, hideEditInput } from "./GridEditor.js";
-import { MouseMoveEventControllers } from "./MouseMoveEventControllers.js";
-import { MouseDownEventControllers } from "./MouseDownEventControllers.js";
-import { MouseUpEventControllers } from "./MouseUpEventControllers.js";
 import { CELL_HEIGHT, CELL_WIDTH } from "../lib/constants.js";
+import type { PointerInteractionState } from "../interfaces/MouseInteractionState.js";
+import { ColResizeState } from "../states/ColResizing.js";
+import { RowResizeState } from "../states/RowResizing.js";
+import { ColSelectionState } from "../states/ColSelection.js";
+import { RowSelectionState } from "../states/RowSelection.js";
+import { CellSelectionState } from "../states/CellSelection.js";
 
-// this function handles all the actions to be done when the mouse-down event is triggered
-export function handleMouseDown(grid: Grid, event: PointerEvent): void {
-  if (event.button !== 0) {
-    return;
+export class GridMouse{
+  private PointerInteractionStates: PointerInteractionState[] = [
+    new ColResizeState(),
+    new RowResizeState(),
+    new ColSelectionState(),
+    new RowSelectionState(),
+    new CellSelectionState(),
+  ];
+
+  // this function handles all the actions to be done when the Pointer-down event is triggered
+  handlePointerDown(grid: Grid, event: PointerEvent): void {
+    if (event.button !== 0) {
+      return;
+    }
+
+    if (grid.editInput.style.display === "block") {
+      applyEdit(grid, grid.editInput.value);
+      hideEditInput(grid);
+    }
+
+    const contentX = event.offsetX + window.pageXOffset;
+    const contentY = event.offsetY + window.pageYOffset;
+
+    if (contentX <= CELL_WIDTH && contentY <= CELL_HEIGHT) { // when pointer coordinates are not inside of the canvas
+      return;
+    }
+
+    for (const state of this.PointerInteractionStates) {
+      if (state.pointerDownHandler(grid, event, contentX, contentY)) {
+        return;
+      }
+    }
   }
 
-  if (grid.editInput.style.display === "block") {
-    applyEdit(grid, grid.editInput.value);
-    hideEditInput(grid);
+  // this function handles all the actions to be done when the Pointer-move event is triggered
+  handlePointerMove(grid: Grid, event: PointerEvent): void {
+    const contentX = event.offsetX + window.pageXOffset;
+    const contentY = event.offsetY + window.pageYOffset;
+
+    for (const state of this.PointerInteractionStates) {
+      if (state.pointerMoveHandler(grid, event, contentX, contentY)) {
+        return;
+      }
+    }
   }
 
-  const contentX = event.offsetX + window.pageXOffset;
-  const contentY = event.offsetY + window.pageYOffset;
-
-  if (contentX <= CELL_WIDTH && contentY <= CELL_HEIGHT) {
-    return;
+  // this function handles all the actions to be done when the Pointer-up event is triggered
+  handlePointerUp(grid: Grid): void {
+    for (const state of this.PointerInteractionStates) {
+      if (state.pointerUpHandler(grid)) {
+        return;
+      }
+    }
   }
-
-  const mouseController = new MouseDownEventControllers()
-
-  mouseController.handlePointerOnColHeaders(grid, contentX, contentY, event)
-
-  mouseController.handlePointerOnRowHeaders(grid, contentX, contentY, event)
-
-  mouseController.selectItem(grid, contentX, contentY, event)
-}
-
-
-// this function handles all the actions to be done when the mouse-move event is triggered
-export function handleMouseMove(grid: Grid, event: PointerEvent): void {
-  const contentX = event.offsetX + window.pageXOffset;
-  const contentY = event.offsetY + window.pageYOffset;
-
-  const mouseController = new MouseMoveEventControllers()
-
-  mouseController.updateCursorOnColHeaders(grid, contentX, contentY, event)
-
-  mouseController.updateCursorOnRowHeaders(grid, contentX, contentY, event)
-
-  mouseController.handleColResizing(grid, event)
-
-  mouseController.handleRowResizing(grid, event)
-
-  mouseController.handleRangeSelection(grid, contentX, contentY)
-}
-
-// this function handles all the actions to be done when the mouse-up event is triggered
-export function handleMouseUp(grid: Grid): void {
-  const mouseController = new MouseUpEventControllers()
-
-  mouseController.handleFinalColSize(grid);
-
-  mouseController.handleFinalRowSize(grid);
-
-  mouseController.highlightSelectedCellRange(grid)
-
-  mouseController.resetState(grid);
 }

@@ -7,9 +7,10 @@ import { renderGrid } from "./helpers/GridRenderer.js";
 import { handleKeyDown } from "./helpers/GridKeyboard.js";
 import { copySelection, pasteClipboardAt } from "./helpers/GridClipboard.js";
 import { insertFormula, hideFormulaMenu, showEditInput, handleEditInputChange, handleInputKeyDown } from "./helpers/GridEditor.js";
-import { ensureCellVisible, updateSpacerSize } from "./helpers/GridLayout.js";
-import { handleMouseDown, handleMouseMove, handleMouseUp } from "./helpers/GridMouse.js";
+import { updateSpacerSize } from "./helpers/GridLayout.js";
 import { handleDoubleClick } from "./helpers/GridDoubleClick.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_HEIGHT, MIN_CELL_WIDTH } from "./lib/constants.js";
+import { GridMouse } from "./helpers/GridMouse.js";
 
 interface GridOptions {
   rowCount: number;
@@ -17,10 +18,10 @@ interface GridOptions {
 }
 
 export class Grid {
-  public static readonly HEADER_HEIGHT = 32;
-  public static readonly HEADER_WIDTH = 60;
-  public static readonly MIN_COLUMN_WIDTH = 40;
-  public static readonly MIN_ROW_HEIGHT = 24;
+  public static readonly HEADER_HEIGHT = CELL_HEIGHT;
+  public static readonly HEADER_WIDTH = CELL_WIDTH;
+  public static readonly MIN_COLUMN_WIDTH = MIN_CELL_WIDTH;
+  public static readonly MIN_ROW_HEIGHT = MIN_CELL_HEIGHT;
 
   public columnDefinitions: ColumnDefinition[] = [];
   public rowDefinitions: RowDefinition[] = [];
@@ -47,6 +48,7 @@ export class Grid {
   public selectionCurrentCol = -1;
   public clipboard: { rows: number; cols: number; values: Array<Array<string | number>> } | null = null;
   public lastFormulaError: string | null = null;
+  private gridMouse: GridMouse;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -72,6 +74,7 @@ export class Grid {
     this.createDimensions();
     this.selection.selectCell(0, 0);
     this.configureEventListeners();
+    this.gridMouse = new GridMouse()
   }
 
   private options: GridOptions;
@@ -121,9 +124,9 @@ export class Grid {
 
   private configureEventListeners(): void {
     window.addEventListener("scroll", () => this.render());
-    this.canvas.addEventListener("pointerdown", (event) => handleMouseDown(this, event));
-    this.canvas.addEventListener("pointermove", (event) => handleMouseMove(this, event));
-    this.canvas.addEventListener("pointerup", () => handleMouseUp(this));
+    this.canvas.addEventListener("pointerdown", (event) => this.gridMouse.handlePointerDown(this, event));
+    this.canvas.addEventListener("pointermove", (event) => this.gridMouse.handlePointerMove(this, event));
+    this.canvas.addEventListener("pointerup", () => this.gridMouse.handlePointerUp(this));
     this.canvas.addEventListener("dblclick", (event) => handleDoubleClick(this, event));
     window.addEventListener("keydown", (event) => handleKeyDown(this, event));
     this.editInput.addEventListener("keydown", (event) => handleInputKeyDown(this, event));
