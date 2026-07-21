@@ -1,7 +1,7 @@
 import type { Grid } from "../Grid.js";
 import { hideFormulaMenu } from "../helpers/GridEditor.js";
 import { autoResizeColumn, getColumnIndexAtPosition, getColumnOffset } from "../helpers/GridLayout.js";
-import { CELL_HEIGHT, CELL_WIDTH } from "../lib/constants.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_DISTANCE } from "../lib/constants.js";
 import { BasePointerInteractionState } from "./BasePointerInteractionState.js";
 
 export class ColSelectionState extends BasePointerInteractionState {
@@ -18,7 +18,7 @@ export class ColSelectionState extends BasePointerInteractionState {
     const columnStartCanvasX = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
     const localX = event.offsetX - columnStartCanvasX;
     const width = grid.columnDefinitions[colIndex]!.width;
-    const nearEdge = Math.abs(localX - width) <= 6;
+    const nearEdge = Math.abs(localX - width) <= MIN_DISTANCE;
 
     if (nearEdge) {
       autoResizeColumn(grid, colIndex);

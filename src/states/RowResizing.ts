@@ -1,7 +1,7 @@
 import type { Grid } from "../Grid.js";
 import { ResizeRowCommand } from "../commands/ResizeRowCommand.js";
 import { getRowIndexAtPosition, getRowOffset, updateSpacerSize } from "../helpers/GridLayout.js";
-import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_HEIGHT } from "../lib/constants.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_HEIGHT, MIN_DISTANCE } from "../lib/constants.js";
 import { BasePointerInteractionState } from "./BasePointerInteractionState.js";
 
 export class RowResizeState extends BasePointerInteractionState {
@@ -18,7 +18,7 @@ export class RowResizeState extends BasePointerInteractionState {
     const rowStartCanvasY = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
     const localY = event.offsetY - rowStartCanvasY;
     const height = grid.rowDefinitions[rowIndex]!.height;
-    const nearEdge = Math.abs(localY - height) <= 6;
+    const nearEdge = Math.abs(localY - height) <= MIN_DISTANCE;
 
     if (!nearEdge) {
       return false;
@@ -46,7 +46,7 @@ export class RowResizeState extends BasePointerInteractionState {
       const rowStartCanvasY = CELL_HEIGHT + getRowOffset(grid.rowDefinitions, rowIndex) - grid.scrollTop;
       const localY = event.offsetY - rowStartCanvasY;
       const height = grid.rowDefinitions[rowIndex]!.height;
-      const nearEdge = Math.abs(localY - height) <= 5;
+      const nearEdge = Math.abs(localY - height) <= MIN_DISTANCE;
       grid.canvas.style.cursor = nearEdge ? "row-resize" : "default";
       return false;
     }

@@ -1,7 +1,7 @@
 import { ResizeColumnCommand } from "../commands/ResizeColumnCommand.js";
 import type { Grid } from "../Grid.js";
 import { getColumnIndexAtPosition, getColumnOffset, updateSpacerSize } from "../helpers/GridLayout.js";
-import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_WIDTH } from "../lib/constants.js";
+import { CELL_HEIGHT, CELL_WIDTH, MIN_CELL_WIDTH, MIN_DISTANCE } from "../lib/constants.js";
 import { BasePointerInteractionState } from "./BasePointerInteractionState.js";
 
 export class ColResizeState extends BasePointerInteractionState {
@@ -18,7 +18,7 @@ export class ColResizeState extends BasePointerInteractionState {
     const columnStartCanvasX = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
     const localX = event.offsetX - columnStartCanvasX;
     const width = grid.columnDefinitions[colIndex]!.width;
-    const nearEdge = Math.abs(localX - width) <= 6;
+    const nearEdge = Math.abs(localX - width) <= MIN_DISTANCE;
 
     if (!nearEdge) {
       return false;
@@ -46,7 +46,7 @@ export class ColResizeState extends BasePointerInteractionState {
       const columnStartCanvasX = CELL_WIDTH + getColumnOffset(grid.columnDefinitions, colIndex) - grid.scrollLeft;
       const localX = event.offsetX - columnStartCanvasX;
       const width = grid.columnDefinitions[colIndex]!.width;
-      const nearEdge = Math.abs(localX - width) <= 5;
+      const nearEdge = Math.abs(localX - width) <= MIN_DISTANCE;
       grid.canvas.style.cursor = nearEdge ? "col-resize" : "default";
       return true;
     }

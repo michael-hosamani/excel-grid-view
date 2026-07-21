@@ -3,3 +3,5 @@ export const CELL_WIDTH = 60
 
 export const MIN_CELL_WIDTH = 40
 export const MIN_CELL_HEIGHT = 24
+
+export const MIN_DISTANCE = 5
