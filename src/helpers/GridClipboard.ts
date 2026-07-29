@@ -29,7 +29,15 @@ export function pasteClipboardAt(grid: Grid, targetRow: number, targetCol: numbe
   for (let r = 0; r < grid.clipboard.rows; r += 1) {
     for (let c = 0; c < grid.clipboard.cols; c += 1) {
       const destRow = targetRow + r;
+      if(destRow >= grid.rowDefinitions.length){
+        alert("copied cells cannot be pasted here as the number of selected cell exceed the limit of the grid")
+        return;
+      }
       const destCol = targetCol + c;
+      if(destCol >= grid.columnDefinitions.length){
+        alert("copied cells cannot be pasted here as the number of selected cell exceed the limit of the grid")
+        return;
+      }
       const newValue = grid.clipboard.values[r]![c];
       const oldValue = grid.data.getCellValue(destRow, destCol);
       if (oldValue !== newValue && typeof(newValue) !== 'undefined') {

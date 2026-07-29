@@ -15,7 +15,7 @@ function renderHeaders(grid: Grid): void {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
 
-  context.fillStyle = "#d7d8da";
+  context.fillStyle = "#e8e6e6";
   context.fillRect(0, 0, width, 32);
   context.fillRect(0, 0, 60, height);
 
@@ -105,7 +105,7 @@ function renderHeaders(grid: Grid): void {
   context.restore();
 
   // Corner cell is drawn last so scrolling headers pass behind it.
-  context.fillStyle = "#d7d8da";
+  context.fillStyle = "#e8e6e6";
   context.fillRect(0, 0, 60, 32);
   context.strokeStyle = "rgba(0,0,0,0.15)";
   context.lineWidth = 1;

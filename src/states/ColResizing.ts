@@ -47,7 +47,8 @@ export class ColResizeState extends BasePointerInteractionState {
       const localX = event.offsetX - columnStartCanvasX;
       const width = grid.columnDefinitions[colIndex]!.width;
       const nearEdge = Math.abs(localX - width) <= MIN_DISTANCE;
-      grid.canvas.style.cursor = nearEdge ? "col-resize" : "default";
+      grid.canvas.style.cursor = nea
+      rEdge ? "col-resize" : "default";
       return true;
     }
 
